@@ -2,7 +2,7 @@
   "name": "openeo-js",
   "private": true,
   "scripts": {
-    "build": "slidev build",
+    "build": "slidev build --base /openeojs-slides/",
     "dev": "slidev --open",
     "export": "slidev export"
   },
