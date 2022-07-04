@@ -67,7 +67,7 @@ What is comming?
 layout: dynamic-image
 title: Motivation
 level: 2
-image: "/assets/agenda.png"
+image: "https://github.com/joaherrerama/openeojs-slides/blob/main/assets/agenda.png"
 ---
 
 # Motivation
