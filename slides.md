@@ -8,7 +8,7 @@ hideInToc: true
 image: >-
   https://images.unsplash.com/photo-1460186136353-977e9d6085a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=1080
 ---
-<div class="absolute pt-1 right-1">
+  <div class="absolute pt-1 right-1">
       <img src="/assets/openeo-logo.svg" class="m-7 h-7" />
   </div>
   <div class="absolute pt-1 right-20">
@@ -67,15 +67,15 @@ What is comming?
 layout: dynamic-image
 title: Motivation
 level: 2
-image: "https://github.com/joaherrerama/openeojs-slides/blob/main/assets/agenda.png?raw=true"
+image: "./assets/agenda.png?raw=true"
 ---
 
 # Motivation
 
-* EO data is one of the most powerful sources for Environmental monitoring and climate change science 
-* The management of this data requires high computational power and high-skilled professional.
-* Current infrastructure of processes for web GIS split the performance between client side and  server-side
-* User-defined processes are relevant when it comes to customized workflows. Users with ownership in its products and simplification of methods - Tech Reliability
+* EO data popularity is increasing due to its relevance in the Environmental sector 
+* Client side for EO processes has few options (Geotiffjs, Geoblaze).
+* Current infrastructure for web GIS splits the performance between client side and  server-side (must).
+* Realistically, what are the limitation when it comes to Eo data processing in a bowser environment
 
 ---
 title: Aim & Research Questions
@@ -131,12 +131,31 @@ layout: two-cols
     </span>
 </div>
 
-<div class="text-black dark:text-white" style="padding:30px;">
-  
+### Platforms 
+* EO data processing in Web GIS platform or infrastructure relies on the serves side. 
+* There were not much bibliography regarding processes of EO data in browser using web tech.
+* In SME (Small Medium Enterprise ) web browser tech was applied enhancing the portability of the platform
+
+
+:: right ::
+
+<div class="text-2xl text-primary dark:text-primary pb-2 pt-4">
+    <span class="">
+      ------------------------------
+      <light-icon icon="hexagon" />
+    </span>
 </div>
+
+### Libraries:
+
+* Turf.js (Client-side)
+* WPS (Web Processing Service)
+* python-bridge (Python in Browser)
+
 ---
 title: EO processes in the Browser
 level: 2
+layout: two-cols
 ---
 <div class="text-2xl text-primary dark:text-primary pb-2 pt-4">
     <span class="">
@@ -144,30 +163,49 @@ level: 2
       EO processes in the Browser
     </span>
 </div>
+
+* Google Earth Engine (GEE), Sentinel Hub, Open Data Cube (ODC), System for Earth Observation Data Access, Processing and Analysis for Land Monitoring (SEPAL, openEO, JEODPP, and pipsCloud.
+
+* None of the platform uses browser processing as an approach. Most processes are done in server side.
+
+* Geoblaze is a library that allows developers to perform EO data processes in vanilla Javascript. This library is based on geotiffjs.
+
+* Geotiffjs allow users to handle Geotiff images up to certain capacity and extend.
+
+:: right ::
+
+  <a class="text-2xl text-bold absolute pt-1 right-75" href="#page-top">geotiff<span class="text-primary">.</span>js</a>
+
+  <div class="absolute pt-4 right-14">
+      <img src="/assets/openeo-logo.svg" class="m-10 h-10" />
+  </div>
+
+  <div class="absolute pt-25 right-37">
+      <img src="https://earthobservations.org/images/articles/201911_earth_engines.png" class="m-6 h-6" />
+  </div>
+
+  <div class="absolute pt-10 right-5">
+      <img src="http://geoblaze.io/assets/img/logo.svg" class="m-30 h-30" />
+  </div>
+
+  <div class="absolute pt-55 right-55">
+      <img src="https://static.wixstatic.com/media/8959d6_98a1d74703d946ecab030b32f53db883~mv2.png/v1/fill/w_536,h_136,al_c,lg_1,q_85,enc_auto/f9d4ea_7a2d1d0c69ad4da0a2f48b69bc481612_.png" class="m-10 h-10" />
+  </div>
+
+  <div class="absolute pt-60 right-5">
+      <img src="https://www.sentinel-hub.com/img/logo.svg" class="m-15 h-15" />
+  </div>
+
+  <div class="absolute pt-90 right-55">
+      <img src="https://docs.sepal.io/en/latest/_static/sepal.png" class="m-10 h-10" />
+  </div>
+  
 ---
 layout: center
 class: text-center
 ---
 
-# Materias and Methods
-
----
-title: Nodejs and Javascript
-level: 2
-layout: two-cols
----
-
-# NodeJS
-
-::right::
-
-# Javascript 
----
-title: OpenEo Processes
-level: 2
----
-
-# OpenEO Processes
+# Design - Workflow
 
 ---
 layout: center
@@ -179,6 +217,7 @@ class: text-center
 ---
 hideInToc: true
 level: 2
+layout: two-cols
 ---
 <div class="text-2xl text-primary dark:text-primary pb-2 pt-4">
     <span class="">
@@ -186,6 +225,65 @@ level: 2
       Implementation
     </span>
 </div>
+
+### Classes
+
+* Band
+
+```ts
+export class OERasterBand {
+  constructor(BufferArray, label) {
+    this.BufferArray = BufferArray;
+    this.label = label;
+  }
+
+  valitadorOEBand() {
+    return true;
+  }
+}
+```
+:: right ::
+
+* Raster
+
+```ts
+export default class OERaster {
+  constructor(geotiff = null, source = null, extraProperties = {}) {
+    this.geotiff = geotiff;
+    this.source = source;
+    this.extraProperties = extraProperties;
+  }
+
+  valitadorOERaster() {
+    return true;
+  }
+}
+```
+
+* Rastercube
+
+```ts
+export class OERastercube {
+  constructor(rasters, tdimension = new Date()) {
+    this.rasters = rasters;
+    this.tdimension = tdimension;
+  }
+}
+```
+---
+hideInToc: true
+level: 2 
+---
+
+### Functions 
+* __Load__ - read an image in local or remote location and parse it to OEDatacube
+* __ndvi__ - Calculates the NDVI given __red__ and __nir__ bands
+* __Statistics__:
+  * _Max_ - Find the maximun value in an TypedArray
+  * _Min_ - Find the minimun value in an TypedArray
+  * _Median_ - Find the median value in an TypedArray
+  * _Mode_ - Find the mode value in an TypedArray
+  * _Mean_ - Find the mean value in an TypedArray
 
 ---
 hideInToc: true
@@ -202,8 +300,43 @@ class: text-center
 # Challenges
 
 ---
+hideInToc: true
+level: 2 
+---
+
+<div class="text-2xl text-primary dark:text-primary pb-2 pt-4">
+    <span class="">
+      <light-icon icon="bug" />
+      Challenges
+    </span>
+</div>
+
+* Large images and formats
+* Data structure and typedarrays
+* Geotiff.js - library allows users to read file and write new objects but the input object can not be modified.
+* Multidimensional array requiered high complexity of abstraction
+
+---
 layout: center
 class: text-center
 ---
 
-# Timeline
+# What comes next?
+
+---
+hideInToc: true
+level: 2 
+---
+
+<div class="text-2xl text-primary dark:text-primary pb-2 pt-4">
+    <span class="">
+      <light-icon icon="bug" />
+      Challenges
+    </span>
+</div>
+
+* apply and reduce methods on Rastercubes
+* Process Graph implementation
+* Change to an Array approach on how to handle EO data - avoid Geotiff object (from geotiff.js)
+* Create user cases to run perfomance testing 
+* Optimize processes to achieve the best performance as possible
